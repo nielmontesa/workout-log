@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
@@ -33,7 +33,7 @@ function App() {
 
         <Route element={<ProtectedRoutes />}>
           <Route element={<PageLayout />}>
-            <Route path="/" />
+            <Route path="/" element={<Navigate to="/workouts" replace />} />
             <Route element={<Workouts />} path="/workouts" />
             <Route element={<WorkoutDetail />} path="/workoutdetail" />
             <Route element={<Exercises />} path="/exercises" />

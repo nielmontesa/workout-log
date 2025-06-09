@@ -1,3 +1,7 @@
 export const Workouts = () => {
-  return <div>Workouts</div>;
+  return (
+    <div>
+      <h1 className="text-lg">Workouts</h1>
+    </div>
+  );
 };

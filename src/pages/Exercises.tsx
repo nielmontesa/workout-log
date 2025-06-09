@@ -1,3 +1,7 @@
 export const Exercises = () => {
-  return <div>Exercises</div>;
+  return (
+    <div>
+      <h1 className="text-lg">Exercises</h1>
+    </div>
+  );
 };
