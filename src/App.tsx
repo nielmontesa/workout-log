@@ -4,11 +4,27 @@ import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { Workouts } from "./pages/Workouts";
 import { WorkoutDetail } from "./pages/WorkoutDetail";
-import { Settings } from "./pages/Settings";
 import { Exercises } from "./pages/Exercises";
 import { ProtectedRoutes } from "./utils/ProtectedRoutes";
+import { useAuthStore } from "./stores/authStore";
+import { useEffect } from "react";
+import { PageLayout } from "./layouts/PageLayout";
 
 function App() {
+  const { initialize, isInitialized } = useAuthStore();
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
+  if (!isInitialized) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        Checking the auth
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -16,10 +32,12 @@ function App() {
         <Route element={<Signup />} path="/signup" />
 
         <Route element={<ProtectedRoutes />}>
-          <Route element={<Workouts />} path="/workouts" />
-          <Route element={<WorkoutDetail />} path="/workoutdetail" />
-          <Route element={<Settings />} path="/settings" />
-          <Route element={<Exercises />} path="/exercises" />
+          <Route element={<PageLayout />}>
+            <Route path="/" />
+            <Route element={<Workouts />} path="/workouts" />
+            <Route element={<WorkoutDetail />} path="/workoutdetail" />
+            <Route element={<Exercises />} path="/exercises" />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
