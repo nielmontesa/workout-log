@@ -1,16 +1,16 @@
 import type { ReactNode } from "react";
 
-interface AddExerciseModalProps {
+interface ExerciseModalProps {
   children: ReactNode;
   toggle: boolean;
   onClose: () => void;
 }
 
-export const AddExerciseModal = ({
+export const ExerciseModal = ({
   children,
   onClose,
   toggle,
-}: AddExerciseModalProps) => {
+}: ExerciseModalProps) => {
   return (
     <div
       className={`fixed left-0 top-0 w-screen h-screen bg-neutral-900/90 ${

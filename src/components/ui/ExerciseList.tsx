@@ -3,15 +3,18 @@ import { getExercises } from "../../services/exerciseService";
 import { useAuthStore } from "../../stores/authStore";
 import type { Exercise } from "../../types/database";
 import { LuPersonStanding } from "react-icons/lu";
-import { AddExerciseModal } from "./AddExerciseModal";
+import { ExerciseModal } from "./ExerciseModal";
 import { ExerciseForm } from "./ExerciseForm";
+import { DeleteExercise } from "./DeleteExercise";
+import { FaTrashCan } from "react-icons/fa6";
 
 export const ExerciseList = () => {
   const { user } = useAuthStore();
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [exercisesLoading, setExercisesLoading] = useState<boolean>(false);
   const [exercisesError, setExercisesError] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchExercises = async () => {
@@ -39,6 +42,10 @@ export const ExerciseList = () => {
 
   const modalToggle = () => {
     setModalOpen((prev) => !prev);
+  };
+
+  const deleteModalToggle = () => {
+    setDeleteModalOpen((prev) => !prev);
   };
 
   if (exercisesLoading) return <div>Exercises are loading ...</div>;
@@ -74,19 +81,27 @@ export const ExerciseList = () => {
                   )}
                 </h3>
               </div>
-              <div className="text-sm flex flex-col">
-                <span className="text-neutral-400 text-xs">MUSCLE GROUP</span>
-                <span className="font-medium">{exercise.muscle_group}</span>
+              <div className="flex justify-between">
+                <div className="text-sm flex flex-col">
+                  <span className="text-neutral-400 text-xs">MUSCLE GROUP</span>
+                  <span className="font-medium">{exercise.muscle_group}</span>
+                </div>
+                <button
+                  onClick={deleteModalToggle}
+                  className="bg-red-900/50 hover:bg-red-900 px-2 py-1 rounded-md text-xs">
+                  <FaTrashCan />
+                </button>
               </div>
             </div>
           );
         })}
       </div>
-      <AddExerciseModal
-        children={<ExerciseForm />}
-        onClose={modalToggle}
-        toggle={modalOpen}
-      />
+      <ExerciseModal onClose={modalToggle} toggle={modalOpen}>
+        <ExerciseForm />
+      </ExerciseModal>
+      <ExerciseModal onClose={deleteModalToggle} toggle={deleteModalOpen}>
+        <DeleteExercise />
+      </ExerciseModal>
     </main>
   );
 };

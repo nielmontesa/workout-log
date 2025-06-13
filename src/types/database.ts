@@ -40,7 +40,7 @@ export interface Workout {
 
 export interface CreateExerciseInput {
   name: string;
-  muscle_group: MuscleGroup;
+  muscle_group: MuscleGroup | undefined;
 }
 
 export interface UpdateExerciseInput {

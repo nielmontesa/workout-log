@@ -5,7 +5,7 @@ import type {
 import { supabase } from "../lib/supabase";
 
 export const createExercise = async (
-  userId: string,
+  userId: string | undefined,
   input: CreateExerciseInput
 ) => {
   const { data, error } = await supabase
