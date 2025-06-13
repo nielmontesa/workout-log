@@ -3,12 +3,15 @@ import { getExercises } from "../../services/exerciseService";
 import { useAuthStore } from "../../stores/authStore";
 import type { Exercise } from "../../types/database";
 import { LuPersonStanding } from "react-icons/lu";
+import { AddExerciseModal } from "./AddExerciseModal";
+import { ExerciseForm } from "./ExerciseForm";
 
 export const ExerciseList = () => {
   const { user } = useAuthStore();
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [exercisesLoading, setExercisesLoading] = useState<boolean>(false);
   const [exercisesError, setExercisesError] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchExercises = async () => {
@@ -34,6 +37,10 @@ export const ExerciseList = () => {
     console.log(exerciseList);
   }, [exerciseList]);
 
+  const modalToggle = () => {
+    setModalOpen((prev) => !prev);
+  };
+
   if (exercisesLoading) return <div>Exercises are loading ...</div>;
   if (exercisesError)
     return <div>{`Error loading exercises: ${exercisesError}`}</div>;
@@ -43,7 +50,9 @@ export const ExerciseList = () => {
       <div className="flex flex-col gap-2 p-6">
         <div className="flex justify-between items-center">
           <h1 className="text-md font-medium">Exercises</h1>
-          <button className="bg-neutral-700 hover:bg-neutral-600 px-2 py-1 rounded-md">
+          <button
+            onClick={modalToggle}
+            className="bg-neutral-700 hover:bg-neutral-600 px-2 py-1 rounded-md">
             + Add Exercise
           </button>
         </div>
@@ -73,6 +82,11 @@ export const ExerciseList = () => {
           );
         })}
       </div>
+      <AddExerciseModal
+        children={<ExerciseForm />}
+        onClose={modalToggle}
+        toggle={modalOpen}
+      />
     </main>
   );
 };
