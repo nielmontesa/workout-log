@@ -52,7 +52,7 @@ export const deleteExercise = async (exerciseId: string) => {
   return data;
 };
 
-export const getExercises = async (userId: string) => {
+export const getExercises = async (userId: string | undefined) => {
   const { data, error } = await supabase
     .from("exercises")
     .select()
